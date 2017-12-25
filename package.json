@@ -1,0 +1,19 @@
+{
+  "name": "tsplayground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "multer": "^1.3.0",
+    "reflect-metadata": "^0.1.10",
+    "routing-controllers": "^0.7.6",
+    "ts-node": "^3.3.0"
+  }
+}
