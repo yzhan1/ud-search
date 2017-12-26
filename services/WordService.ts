@@ -1,21 +1,19 @@
-import { JsonController, Param, Body, Get } from 'routing-controllers';
+import { Service } from 'typedi';
 import request = require('request');
 
-@JsonController()
-export class WordController {
+@Service()
+export class WordService {
 
-    @Get('/api/define/:term')
-    getDefinition(@Param('term') term: string) {
+    getDefinition(term: string) {
         request(`http://api.urbandictionary.com/v0/define?term=${ term }`, (err, res, body) => {
             if (res && res.statusCode == 200)
                 console.log(body);
                 return body;
         });
-        return `term ${ term }`;
+        return null;
     }
 
-    @Get('/api/defineid/:defid')
-    getDefinitionWithId(@Param('defid') defid: number) {
+    getDefinitionWithId(defid: number) {
         request(`http://api.urbandictionary.com/v0/define?defid=${ defid }`, (err, res, body) => {
             if (res && res.statusCode == 200)
                 console.log(body);
@@ -23,8 +21,7 @@ export class WordController {
         });
         return null;
     }
-  
-    @Get('/api/random')
+
     getRandom() {
         request('http://api.urbandictionary.com/v0/random', (err, res, body) => {
             if (res && res.statusCode == 200)
