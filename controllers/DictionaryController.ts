@@ -1,31 +1,31 @@
 import { JsonController, Param, Body, Get } from 'routing-controllers';
 import { Service, Inject, Container } from 'typedi';
-import { WordService } from '../services/WordService';
+import { DictionaryService } from '../services/DictionaryService';
 
-// @Service()
+@Service()
 @JsonController()
 export class DictionaryController {
 
     @Inject()
-    wordService: WordService;
+    private dictionaryService: DictionaryService;
 
     constructor() {
-        this.wordService = Container.get(WordService);
+        this.dictionaryService = Container.get(DictionaryService);
     }
 
     @Get('/define/:term')
     getDefinition(@Param('term') term: string) {
-        return this.wordService.getDefinition(term);
+        return this.dictionaryService.getDefinition(term);
     }
 
     @Get('/defineid/:defid')
     getDefinitionWithId(@Param('defid') defid: number) {
-        return this.wordService.getDefinitionWithId(defid);
+        return this.dictionaryService.getDefinitionWithId(defid);
     }
   
     @Get('/random')
     getRandom() {
-        return this.wordService.getRandom();
+        return this.dictionaryService.getRandom();
     }
 
 }
