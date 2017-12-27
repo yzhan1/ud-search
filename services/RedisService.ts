@@ -13,11 +13,11 @@ export class RedisService {
 
     find(query: string): Promise<JSON> {
         console.log(query);
-        return this.client.hgetallAsync(query).then((res: JSON) => res);
+        return this.client.getAsync(query).then((res: string) => JSON.parse(res));
     }
 
-    save(query: string, data: JSON): void {
-        this.client.hmset(query, data);
+    save(query: string, data: string): void {
+        this.client.set(query, data);
         console.log('query: ' + query);
         console.log('data: ' + data);
     }

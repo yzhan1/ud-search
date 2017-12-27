@@ -52,7 +52,7 @@ export class DictionaryService {
                 return data;
             } else {
                 console.log('saving cache to redis');
-                return this.fetchApi(this.BASE_DEFINE_URL + query, (data: JSON) => {
+                return this.fetchApi(this.BASE_DEFINE_URL + query, (data: string) => {
                     this.redisService.save(query, data);
                 });
             } 
