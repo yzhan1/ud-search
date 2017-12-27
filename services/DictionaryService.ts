@@ -2,7 +2,8 @@ import { Service, Inject, Container } from 'typedi';
 import { BadRequestError } from 'routing-controllers';
 import { RedisService } from './RedisService';
 import axios from 'axios';
-import redis = require('redis');
+import request = require('request');
+import { Request } from 'request';
 
 @Service()
 export class DictionaryService {
@@ -16,36 +17,47 @@ export class DictionaryService {
         this.redisService = Container.get(RedisService);
     }
 
-    getDefinition(term: string): JSON {
+    getDefinition(term: string): Promise<JSON> {
         const query = `term=${ term }`;
-        let cache: JSON = this.redisService.find(query);
-        if (cache) {
-            console.log('found match from redis');
-            return cache;
-        } else {
-            this.fetchApi(this.BASE_DEFINE_URL + query)
-                .then(res => cache = res.data)
-                .catch(err => BadRequestError);
-            this.redisService.save(query, cache);
-            return cache;
-        }
+        return this.getDef(query).then((data: JSON) => data);
     }
 
-    getDefinitionWithId(defid: number): Promise<any> {
+    getDefinitionWithId(defid: number): Promise<JSON> {
         const query = `defid=${ defid }`;
-        return this.fetchApi(this.BASE_DEFINE_URL + query)
-            .then(res => res.data)
-            .catch(err => BadRequestError);
+        return this.getDef(query).then((data: JSON) => data);
     }
 
-    getRandom(): Promise<any> {
-        return this.fetchApi(this.BASE_RANDOM_URL)
-            .then(res => res.data)
-            .catch(err => BadRequestError);
+    getRandom(): Request {
+        return this.fetchApi(this.BASE_RANDOM_URL, (body: JSON) => body);
     }
 
-    private fetchApi(api: string): Promise<any> {
-        return axios.get(api);
+    private fetchApi(api: string, callback: Function): Request {
+        return request(api, (err, res, body) => {
+            if (res && res.statusCode === 200) {
+                callback(body);
+                return JSON.parse(body);
+            } else {
+                return {
+                    'error': 'BadRequestError'
+                };
+            }
+        });
+    }
+
+    private getDef(query: string): Promise<any> {
+        const reply = this.redisService.find(query);
+        return reply.then((data: any) => {
+            console.log('data returned from redis is: ' + data);
+            if (data) {
+                console.log(`found match from redis: ${ data }`);
+                return data;
+            } else {
+                console.log('saving cache to redis');
+                return this.fetchApi(this.BASE_DEFINE_URL + query, (data: JSON) => {
+                    this.redisService.save(query, data);
+                });
+            } 
+        });
     }
 
 }

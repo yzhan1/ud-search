@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { RedisClient } from 'redis';
+import { redisClient } from '../redis/RedisClient'; 
 
 @Service()
 export class RedisService {
@@ -7,19 +8,18 @@ export class RedisService {
     private client: RedisClient;
 
     constructor() {
-        this.client = require('../redis/RedisClient');
+        this.client = redisClient;
     }
 
-    find(query: string): JSON {
-        console.log(this.client);
-        this.client.get(query, (err: any, reply: string) => {
-            console.log(JSON.parse(reply));
-            return JSON.parse(reply);
-        });
+    find(query: string): Promise<JSON> {
+        console.log(query);
+        return this.client.hgetallAsync(query).then((res: JSON) => res);
     }
 
-    save(query: string, data: JSON): boolean {
-        return this.client.setex(query, 3600, data.toString());
+    save(query: string, data: JSON): void {
+        this.client.hmset(query, data);
+        console.log('query: ' + query);
+        console.log('data: ' + data);
     }
 
 }
