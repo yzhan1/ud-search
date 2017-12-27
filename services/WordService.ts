@@ -1,34 +1,35 @@
+import axios from 'axios';
 import { Service } from 'typedi';
-import request = require('request');
+import { BadRequestError } from 'routing-controllers';
 
 @Service()
 export class WordService {
 
     getDefinition(term: string) {
-        request(`http://api.urbandictionary.com/v0/define?term=${ term }`, (err, res, body) => {
-            if (res && res.statusCode == 200)
-                console.log(body);
-                return body;
-        });
-        return null;
+        return this.fetchApi(`http://api.urbandictionary.com/v0/define?term=${ term }`)
+            .then(res => res.data)
+            .catch(err => BadRequestError);
     }
 
     getDefinitionWithId(defid: number) {
-        request(`http://api.urbandictionary.com/v0/define?defid=${ defid }`, (err, res, body) => {
-            if (res && res.statusCode == 200)
-                console.log(body);
-                return body;
-        });
-        return null;
+        return this.fetchApi(`http://api.urbandictionary.com/v0/define?defid=${ defid }`)
+            .then(res => res.data)
+            .catch(err => BadRequestError);
     }
 
     getRandom() {
-        request('http://api.urbandictionary.com/v0/random', (err, res, body) => {
-            if (res && res.statusCode == 200)
-                console.log(body);
-                return body;
-        });
-        return ['hello', 'world'];
+        return this.fetchApi('http://api.urbandictionary.com/v0/random')
+            .then(res => res.data)
+            .catch(err => BadRequestError);
+    }
+
+    private fetchApi(api: string) {
+        return axios.get(api);
+    }
+
+    private checkRedis(query: string) {
+        // TODO
+
     }
 
 }

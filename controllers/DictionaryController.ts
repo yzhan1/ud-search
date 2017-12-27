@@ -1,25 +1,29 @@
 import { JsonController, Param, Body, Get } from 'routing-controllers';
-import { Service } from 'typedi';
+import { Service, Inject, Container } from 'typedi';
 import { WordService } from '../services/WordService';
-import request = require('request');
 
-@Service()
+// @Service()
 @JsonController()
 export class DictionaryController {
 
-    constructor(protected wordService: WordService) { }
+    @Inject()
+    wordService: WordService;
 
-    @Get('/api/define/:term')
+    constructor() {
+        this.wordService = Container.get(WordService);
+    }
+
+    @Get('/define/:term')
     getDefinition(@Param('term') term: string) {
         return this.wordService.getDefinition(term);
     }
 
-    @Get('/api/defineid/:defid')
+    @Get('/defineid/:defid')
     getDefinitionWithId(@Param('defid') defid: number) {
         return this.wordService.getDefinitionWithId(defid);
     }
   
-    @Get('/api/random')
+    @Get('/random')
     getRandom() {
         return this.wordService.getRandom();
     }
