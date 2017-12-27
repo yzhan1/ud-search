@@ -2,7 +2,7 @@ import * as React from 'react';
 import './App.css';
 
 class App extends React.Component {
-  state = {words: []}
+  state = {words: []};
 
   componentDidMount() {
     fetch('/api/random')
@@ -14,11 +14,11 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Welcome to React</h2>
+          <h2>UrbanDictionary Search</h2>
         </div>
         <p className="App-intro">
           {this.state.words.map(word => 
-            <p>{word}</p>
+            <div>{ word }</div>
           )}
         </p>
       </div>
