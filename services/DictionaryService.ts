@@ -1,9 +1,8 @@
 import { Service, Inject, Container } from 'typedi';
 import { BadRequestError } from 'routing-controllers';
 import { RedisService } from './RedisService';
-import axios from 'axios';
-import request = require('request');
 import { Request } from 'request';
+import request = require('request');
 
 @Service()
 export class DictionaryService {
