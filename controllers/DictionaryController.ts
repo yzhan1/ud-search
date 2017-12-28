@@ -31,7 +31,7 @@ export class DictionaryController {
   
     @Get('/random')
     getRandom() {
-        this.logger.info(() => `GET /random`);
+        this.logger.info(() => 'GET /random');
         return this.dictionaryService.getRandom();
     }
 

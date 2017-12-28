@@ -49,6 +49,7 @@ export class DictionaryService {
         });
     }
 
+    // TODO: move saving cache to background
     private getDef(query: string): Promise<any> {
         const reply = this.redisService.find(query);
         // return the Promise and parse out the data in main methods
