@@ -38,8 +38,12 @@ export class DictionaryService {
         return request(api, (err, res, body) => {
             if (res && res.statusCode === 200) {
                 this.logger.info(() => `Successfully reached API: ${ api }`);
-                callback(body);
-                return JSON.parse(body);
+                let jsonData = JSON.parse(body);
+                if (jsonData.result_type !== 'no_results') {
+                    this.logger.info(() => 'Results found in API call');
+                    callback(body);
+                }
+                return jsonData;
             } else {
                 this.logger.error(() => `BadRequest to API: ${ api }`);
                 return {
@@ -49,7 +53,7 @@ export class DictionaryService {
         });
     }
 
-    // TODO: move saving cache to background
+    // TODO: make saving cache async?
     private getDef(query: string): Promise<any> {
         const reply = this.redisService.find(query);
         // return the Promise and parse out the data in main methods
@@ -58,8 +62,8 @@ export class DictionaryService {
                 this.logger.info(() => `Found match for query ${ query } from REDIS: ${ data }`);
                 return data;
             } else {
-                this.logger.info(() => `Saving query ${ query } to REDIS`);
                 return this.fetchApi(this.BASE_DEFINE_URL + query, (data: string) => {
+                    this.logger.info(() => `Saving query ${ query } to REDIS`);
                     // save the cache in fetchApi's callback
                     this.redisService.save(query, data);
                 });

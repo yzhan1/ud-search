@@ -18,7 +18,9 @@ export class RedisService {
     find(query: string): Promise<JSON> {
         this.logger.info(() => `Querying REDIS for query: ${ query }`);
         // parse the cache from string into JSON
-        return this.client.getAsync(query).then((res: string) => JSON.parse(res));
+        return this.client.getAsync(query)
+                    .then((res: string) => JSON.parse(res))
+                    .catch((err: any) => this.logger.error(() => `Error when searching REDIS: ${ err }`));
     }
 
     save(query: string, data: string): boolean {

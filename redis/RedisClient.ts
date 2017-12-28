@@ -1,9 +1,11 @@
 import { Factory } from '../config/ConfigLog4j';
-import redis = require('redis');
-import bluebird = require('bluebird');
+import * as Promise from 'bluebird';
+import * as redis from 'redis';
 
-bluebird.promisifyAll(redis.RedisClient.prototype);
-bluebird.promisifyAll(redis.Multi.prototype);
+const redisAsync: any = Promise.promisifyAll(redis);
+
+// bluebird.promisifyAll(redis.RedisClient.prototype);
+// bluebird.promisifyAll(redis.Multi.prototype);
 
 export const MyRedisClient = redis.createClient();
 
