@@ -20,7 +20,7 @@ export class RedisService {
         // parse the cache from string into JSON
         return this.client.getAsync(query)
                     .then((res: string) => JSON.parse(res))
-                    .catch((err: any) => this.logger.error(() => `Error when searching REDIS: ${ err }`));
+                    .catch((err: Error) => this.logger.error(() => `Error when searching REDIS: ${ err }`));
     }
 
     save(query: string, data: string): boolean {

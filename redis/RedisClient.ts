@@ -8,7 +8,9 @@ declare module 'redis' {
     }
 }
 
-const unpromisedClient = Redis.createClient();
+const redisUrl = process.env.REDIS_URL ? process.env.REDIS_URL : 'redis://localhost:6379';
+
+const unpromisedClient = require('redis').createClient(redisUrl);
 export const MyRedisClient = Promise.promisifyAll(unpromisedClient) as Redis.RedisClient;
 
 const logger = Factory.getLogger('RedisClientLogger');

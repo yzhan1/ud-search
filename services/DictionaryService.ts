@@ -22,12 +22,12 @@ export class DictionaryService {
 
     getDefinition(term: string): Promise<JSON> {
         const query = `term=${ term }`;
-        return this.getDef(query).then((data: JSON) => data);
+        return this.doQuery(query).then((data: JSON) => data);
     }
 
     getDefinitionWithId(defid: number): Promise<JSON> {
         const query = `defid=${ defid }`;
-        return this.getDef(query).then((data: JSON) => data);
+        return this.doQuery(query).then((data: JSON) => data);
     }
 
     getRandom(): Request {
@@ -54,7 +54,7 @@ export class DictionaryService {
     }
 
     // TODO: make saving cache async?
-    private getDef(query: string): Promise<any> {
+    private doQuery(query: string): Promise<any> {
         const reply = this.redisService.find(query);
         // return the Promise and parse out the data in main methods
         return reply.then((data: any) => {
