@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 import { RedisClient } from 'redis';
-import { redisClient } from '../redis/RedisClient'; 
+import { MyRedisClient } from '../redis/RedisClient'; 
 import { Logger } from 'typescript-logging/dist/commonjs/log/standard/Logger';
-import { factory } from '../config/ConfigLog4j';
+import { Factory } from '../config/ConfigLog4j';
 
 @Service()
 export class RedisService {
@@ -11,8 +11,8 @@ export class RedisService {
     private logger: Logger;
 
     constructor() {
-        this.client = redisClient;
-        this.logger = factory.getLogger('RedisLogger');
+        this.client = MyRedisClient;
+        this.logger = Factory.getLogger('RedisLogger');
     }
 
     find(query: string): Promise<JSON> {

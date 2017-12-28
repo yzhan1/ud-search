@@ -2,7 +2,7 @@ import { JsonController, Param, Body, Get } from 'routing-controllers';
 import { Service, Inject, Container } from 'typedi';
 import { DictionaryService } from '../services/DictionaryService';
 import { Logger } from 'typescript-logging/dist/commonjs/log/standard/Logger';
-import { factory } from '../config/ConfigLog4j';
+import { Factory } from '../config/ConfigLog4j';
 
 @Service()
 @JsonController()
@@ -14,7 +14,7 @@ export class DictionaryController {
 
     constructor() {
         this.dictionaryService = Container.get(DictionaryService);
-        this.logger = factory.getLogger('ControllerLogger');
+        this.logger = Factory.getLogger('ControllerLogger');
     }
 
     @Get('/define/:term')

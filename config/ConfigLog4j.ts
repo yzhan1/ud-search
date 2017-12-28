@@ -3,4 +3,4 @@ import { LoggerFactory, LoggerFactoryOptions, LFService, LogGroupRule, LogLevel 
 const options = new LoggerFactoryOptions()
     .addLogGroupRule(new LogGroupRule(new RegExp(".+"), LogLevel.Info));
 
-export const factory = LFService.createNamedLoggerFactory('LoggerFactory', options);
+export const Factory = LFService.createNamedLoggerFactory('LoggerFactory', options);

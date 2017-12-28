@@ -2,11 +2,9 @@ import { Service, Inject, Container } from 'typedi';
 import { BadRequestError } from 'routing-controllers';
 import { RedisService } from './RedisService';
 import { Logger } from 'typescript-logging/dist/commonjs/log/standard/Logger';
-import { factory } from '../config/ConfigLog4j';
+import { Factory } from '../config/ConfigLog4j';
 import { Request } from 'request';
 import request = require('request');
-import { log } from 'util';
-
 
 @Service()
 export class DictionaryService {
@@ -19,7 +17,7 @@ export class DictionaryService {
 
     constructor() {
         this.redisService = Container.get(RedisService);
-        this.logger = factory.getLogger('DictionaryServiceLogger');
+        this.logger = Factory.getLogger('DictionaryServiceLogger');
     }
 
     getDefinition(term: string): Promise<JSON> {
