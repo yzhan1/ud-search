@@ -17,12 +17,14 @@ export class RedisService {
 
     find(query: string): Promise<JSON> {
         this.logger.info(() => `Querying REDIS for query: ${ query }`);
+        // parse the cache from string into JSON
         return this.client.getAsync(query).then((res: string) => JSON.parse(res));
     }
 
     save(query: string, data: string): boolean {
         this.logger.info(() => `Saving k-v pair for ${ query }`);
-        return this.client.set(query, data);
+        // expire the cache every 24 hours
+        return this.client.setex(query, 3600 * 24, data);
     }
 
 }

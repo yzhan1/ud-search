@@ -51,6 +51,7 @@ export class DictionaryService {
 
     private getDef(query: string): Promise<any> {
         const reply = this.redisService.find(query);
+        // return the Promise and parse out the data in main methods
         return reply.then((data: any) => {
             if (data) {
                 this.logger.info(() => `Found match for query ${ query } from REDIS: ${ data }`);
@@ -58,6 +59,7 @@ export class DictionaryService {
             } else {
                 this.logger.info(() => `Saving query ${ query } to REDIS`);
                 return this.fetchApi(this.BASE_DEFINE_URL + query, (data: string) => {
+                    // save the cache in fetchApi's callback
                     this.redisService.save(query, data);
                 });
             } 
