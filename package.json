@@ -26,6 +26,7 @@
     "ts-node": "^3.3.0",
     "typedi": "^0.6.0",
     "typeorm": "^0.1.9",
+    "typescript-logging": "^0.5.0",
     "urban-dictionary": "^1.0.6"
   }
 }

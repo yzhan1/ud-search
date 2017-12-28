@@ -1,25 +1,28 @@
 import { Service } from 'typedi';
 import { RedisClient } from 'redis';
 import { redisClient } from '../redis/RedisClient'; 
+import { Logger } from 'typescript-logging/dist/commonjs/log/standard/Logger';
+import { factory } from '../config/ConfigLog4j';
 
 @Service()
 export class RedisService {
 
     private client: RedisClient;
+    private logger: Logger;
 
     constructor() {
         this.client = redisClient;
+        this.logger = factory.getLogger('RedisLogger');
     }
 
     find(query: string): Promise<JSON> {
-        console.log(query);
+        this.logger.info(() => `Querying REDIS for query: ${ query }`);
         return this.client.getAsync(query).then((res: string) => JSON.parse(res));
     }
 
-    save(query: string, data: string): void {
-        this.client.set(query, data);
-        console.log('query: ' + query);
-        console.log('data: ' + data);
+    save(query: string, data: string): boolean {
+        this.logger.info(() => `Saving k-v pair for ${ query }`);
+        return this.client.set(query, data);
     }
 
 }
