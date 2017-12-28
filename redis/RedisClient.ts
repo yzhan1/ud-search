@@ -1,13 +1,15 @@
 import { Factory } from '../config/ConfigLog4j';
 import * as Promise from 'bluebird';
-import * as redis from 'redis';
+import * as Redis from 'redis';
 
-const redisAsync: any = Promise.promisifyAll(redis);
+declare module 'redis' {
+    export interface RedisClient extends NodeJS.EventEmitter {
+        getAsync(...args: any[]): Promise<any>;
+    }
+}
 
-// bluebird.promisifyAll(redis.RedisClient.prototype);
-// bluebird.promisifyAll(redis.Multi.prototype);
-
-export const MyRedisClient = redis.createClient();
+const unpromisedClient = Redis.createClient();
+export const MyRedisClient = Promise.promisifyAll(unpromisedClient) as Redis.RedisClient;
 
 const logger = Factory.getLogger('RedisClientLogger');
 

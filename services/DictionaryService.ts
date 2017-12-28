@@ -4,7 +4,7 @@ import { RedisService } from './RedisService';
 import { Logger } from 'typescript-logging/dist/commonjs/log/standard/Logger';
 import { Factory } from '../config/ConfigLog4j';
 import { Request } from 'request';
-import request = require('request');
+import * as request from 'request';
 
 @Service()
 export class DictionaryService {
