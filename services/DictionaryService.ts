@@ -53,7 +53,6 @@ export class DictionaryService {
         });
     }
 
-    // TODO: make saving cache async?
     private doQuery(query: string): Promise<any> {
         const reply = this.redisService.find(query);
         // return the Promise and parse out the data in main methods
