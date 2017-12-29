@@ -38,7 +38,7 @@ export class DictionaryService {
         return request(api, (err, res, body) => {
             if (res && res.statusCode === 200) {
                 this.logger.info(() => `Successfully reached API: ${ api }`);
-                let jsonData = JSON.parse(body);
+                const jsonData = JSON.parse(body);
                 if (jsonData.result_type !== 'no_results') {
                     this.logger.info(() => 'Results found in API call');
                     callback(body);
