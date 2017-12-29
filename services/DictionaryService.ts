@@ -8,10 +8,10 @@ import * as request from 'request';
 
 @Service()
 export class DictionaryService {
+    private logger: Logger;
 
     @Inject()
     private redisService: RedisService;
-    private logger: Logger;
     private readonly BASE_DEFINE_URL: string = 'http://api.urbandictionary.com/v0/define?';
     private readonly BASE_RANDOM_URL: string = 'http://api.urbandictionary.com/v0/random';
 
@@ -69,5 +69,4 @@ export class DictionaryService {
             } 
         });
     }
-
 }

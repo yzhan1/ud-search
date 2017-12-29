@@ -7,11 +7,11 @@ import { Factory } from '../config/ConfigLog4j';
 @Service()
 @JsonController()
 export class DictionaryController {
+    private logger: Logger;
 
     @Inject()
     private dictionaryService: DictionaryService;
-    private logger: Logger;
-
+    
     constructor() {
         this.dictionaryService = Container.get(DictionaryService);
         this.logger = Factory.getLogger('ControllerLogger');
@@ -34,5 +34,4 @@ export class DictionaryController {
         this.logger.info(() => 'GET /random');
         return this.dictionaryService.getRandom();
     }
-
 }

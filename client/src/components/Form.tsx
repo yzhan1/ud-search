@@ -1,8 +1,7 @@
 import * as React from 'react';
+import Word from '../interfaces/Word';
 
 class Form extends React.Component {
-    state = {searchWord: ''};
-
     onSubmit(e: React.FormEvent<HTMLFormElement>): void {
         e.preventDefault();
         const searchField = document.getElementsByName('text')[0] as HTMLInputElement,
@@ -17,12 +16,18 @@ class Form extends React.Component {
             });
     }
 
+    renderResult(result: Word) {
+        if (result.result_type === 'no_results') {
+            return;
+        }
+    }
+
     render() {
         return (
             <div className="form">
                 <form onSubmit={this.onSubmit}>
                     <input name="text" ref="text" placeholder="Type to start searching"/>
-                    <button>Submit</button>
+                    <button>Search</button>
                 </form>
             </div>
         );

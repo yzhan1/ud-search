@@ -6,9 +6,8 @@ import { Factory } from '../config/ConfigLog4j';
 
 @Service()
 export class RedisService {
-
-    private client: RedisClient;
     private logger: Logger;
+    private client: RedisClient;
 
     constructor() {
         this.client = MyRedisClient;
@@ -31,5 +30,4 @@ export class RedisService {
         // expire the cache every 24 hours
         return this.client.setex(query, 3600 * 24, data);
     }
-
 }
