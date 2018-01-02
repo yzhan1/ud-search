@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Item from '../interfaces/Item';
 import Word from '../interfaces/Word';
-import { Card, Rate, Tag, Row, Col } from 'antd';
-import { calculateRate } from '../utils/util';
+import WordCard from './WordCard';
+import { Alert, Tag, Row, Col } from 'antd';
 
 class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }, 
                                        { items: Array<Item>, word: Array<Word> }> {
@@ -17,9 +17,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
     componentDidMount(): void {
         fetch('/api/random')
             .then(res => res.json())
-            .then(items => {
-                this.setState({ items: items.list });
-            });
+            .then(items => this.setState({ items: items.list }));
     }
 
     componentWillReceiveProps(nextProps: any) {
@@ -39,19 +37,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
         return (
             <div className="word-list">
                 {items.map(item => {
-                    return (
-                        <Card 
-                            key={item.defid} 
-                            title={item.word} 
-                            className="word-card"
-                            bordered={false}
-                        >
-                            <p>{item.definition}</p>
-                            <p>{item.example}</p>
-                            <p>{item.author}</p>
-                            <Rate disabled defaultValue={calculateRate(item.thumbs_up, item.thumbs_down)} />
-                        </Card>
-                    );
+                    return <WordCard item={item} />;
                 })}
             </div>
         );
@@ -64,9 +50,9 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
                     <h2><strong>Tags</strong></h2>
                 </Col>
                 <Col span={21}>
-                    {word.tags.slice(0, 8).map(tag => {
+                    {word.tags.slice(0, 8).map((tag, index) => {
                         return (
-                            <Tag color="green" key={tag} style={{ marginTop: 3 }}>{tag}</Tag>
+                            <Tag color="green" key={index + tag} style={{ marginTop: 3 }}>{tag}</Tag>
                         );
                     })}
                 </Col>
@@ -76,27 +62,28 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
 
     private renderWord(word: Word) {
         if (word.result_type === 'no_results') {
-            return this.renderNoMatch();
+            return (
+                <Alert 
+                    message="No results found. Please try another word." 
+                    type="warning" 
+                    showIcon 
+                    style={{ width: 800 }} 
+                />
+            );
+        } else {
+            return (
+                <div className="word-list">
+                    <Alert 
+                        message={`Found ${ word.list.length } matches`} 
+                        type="success" 
+                        showIcon 
+                        style={{ marginBottom: 40 }} 
+                    />
+                    {this.renderWordHeader(word)}
+                    {this.renderItems(word.list)}
+                </div>
+            );
         }
-        return (
-            <div className="word-list">
-                {this.renderWordHeader(word)}
-                {this.renderItems(word.list)}
-            </div>
-        );
-    }
-
-    private renderNoMatch() {
-        return (
-            <Card 
-                key="no-result" 
-                title="No Result Found" 
-                className="word-card"
-                bordered={false}
-            >
-                <p>Sorry, please try another word.</p>
-            </Card>
-        );
     }
 }
 

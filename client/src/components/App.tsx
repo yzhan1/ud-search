@@ -4,7 +4,7 @@ import Item from '../interfaces/Item';
 import Word from '../interfaces/Word';
 import Form from '../components/Form';
 import FooterContent from '../components/Footer';
-import { Layout } from 'antd';
+import { Layout, BackTop } from 'antd';
 import '../styles/App.css';
 
 const { Footer, Content } = Layout;
@@ -37,8 +37,9 @@ class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }>
                     <WordList items={this.state.items} word={this.state.word} />
                 </Content>
                 <Footer className="footer">
-                    <FooterContent/>
+                    <FooterContent />
                 </Footer>
+                <BackTop />
             </Layout>
         );
     }
