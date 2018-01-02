@@ -18,9 +18,9 @@ class WordCard extends React.Component<{ item: Item }, {}> {
                 bordered={false}
             >
                 <p>{item.definition}</p>
-                <p><i>{item.example}</i></p>
+                <blockquote><i>{item.example}</i></blockquote>
                 <p><strong>@{item.author}</strong></p>
-                <Rate disabled defaultValue={calculateRate(item.thumbs_up, item.thumbs_down)} />
+                <Rate disabled={true} defaultValue={calculateRate(item.thumbs_up, item.thumbs_down)} />
             </Card>
         );
     }

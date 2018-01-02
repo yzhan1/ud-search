@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+* {
+  font-family: 'Maven Pro', monospace;
+}
+
 .App {
   background: #f7fbfd;
 }
@@ -47,4 +51,11 @@
 .footer {
   text-align: center;
   background: #f7fbfd;
+}
+
+blockquote {
+  color: #697b8c;
+  border-left: 4px solid #ebedf0;
+  padding-left: 0.8em;
+  margin: 1em 0;
 }

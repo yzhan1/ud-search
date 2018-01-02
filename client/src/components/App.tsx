@@ -10,7 +10,7 @@ import '../styles/App.css';
 const { Footer, Content } = Layout;
 
 class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }> {
-    constructor(props: React.Props<any>) {
+    constructor(props: React.Props<{}>) {
         super(props);
         this.state = {
             items: Array<Item>(),

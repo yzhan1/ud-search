@@ -4,6 +4,8 @@ import Word from '../interfaces/Word';
 import WordCard from './WordCard';
 import { Alert, Tag, Row, Col } from 'antd';
 
+const uuidv1 = require('uuid/v1');
+
 class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }, 
                                        { items: Array<Item>, word: Array<Word> }> {
     constructor(props: { items: Array<Item>, word: Array<Word> }) {
@@ -37,7 +39,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
         return (
             <div className="word-list">
                 {items.map(item => {
-                    return <WordCard item={item} />;
+                    return <WordCard item={item} key={uuidv1()} />;
                 })}
             </div>
         );
@@ -50,9 +52,9 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
                     <h2><strong>Tags</strong></h2>
                 </Col>
                 <Col span={21}>
-                    {word.tags.slice(0, 8).map((tag, index) => {
+                    {word.tags.slice(0, 8).map(tag => {
                         return (
-                            <Tag color="green" key={index + tag} style={{ marginTop: 3 }}>{tag}</Tag>
+                            <Tag color="cyan" key={uuidv1()} style={{ marginTop: 3 }}>{tag}</Tag>
                         );
                     })}
                 </Col>
@@ -66,7 +68,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
                 <Alert 
                     message="No results found. Please try another word." 
                     type="warning" 
-                    showIcon 
+                    showIcon={true} 
                     style={{ width: 800 }} 
                 />
             );
@@ -76,7 +78,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
                     <Alert 
                         message={`Found ${ word.list.length } matches`} 
                         type="success" 
-                        showIcon 
+                        showIcon={true} 
                         style={{ marginBottom: 40 }} 
                     />
                     {this.renderWordHeader(word)}
