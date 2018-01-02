@@ -45,7 +45,7 @@ export class DictionaryService {
                 }
                 return jsonData;
             } else {
-                this.logger.error(() => `BadRequest to API: ${ api }`);
+                this.logger.error(() => `BadRequest to API: ${ api } ; Error: ${ err }`);
                 return {
                     'error': 'BadRequestError'
                 };

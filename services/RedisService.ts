@@ -18,11 +18,11 @@ export class RedisService {
         this.logger.info(() => `Querying REDIS for query: ${ query }`);
         // parse the cache from string into JSON
         return this.client.getAsync(query)
-                    .then((res: string) => JSON.parse(res))
-                    .catch((err: Error) => {
-                        this.logger.error(() => `Error when searching REDIS: ${ err }`);
-                        return null;
-                    });
+                            .then((res: string) => JSON.parse(res))
+                            .catch((err: Error) => {
+                                this.logger.error(() => `Error when searching REDIS: ${ err }`);
+                                return null;
+                            });
     }
 
     save(query: string, data: string): boolean {

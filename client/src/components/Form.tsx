@@ -1,34 +1,26 @@
 import * as React from 'react';
-import Word from '../interfaces/Word';
+import { Input } from 'antd';
+import Header from './Header';
 
-class Form extends React.Component {
-    onSubmit(e: React.FormEvent<HTMLFormElement>): void {
-        e.preventDefault();
-        const searchField = document.getElementsByName('text')[0] as HTMLInputElement,
-              searchText = searchField.value.trim();
-        if (searchText.length < 2) {
-            return;
-        }
-        fetch(`/api/define/${ searchText }`)
-            .then((res) => res.json())
-            .then((result) => {
-                console.log(result);
-            });
-    }
+const Search = Input.Search;
 
-    renderResult(result: Word) {
-        if (result.result_type === 'no_results') {
-            return;
-        }
+class Form extends React.Component<{ onSubmit: Function }, {}> {
+    constructor(props: { onSubmit: Function }) {
+        super(props);
     }
 
     render() {
         return (
-            <div className="form">
-                <form onSubmit={this.onSubmit}>
-                    <input name="text" ref="text" placeholder="Type to start searching"/>
-                    <button>Search</button>
-                </form>
+            <div className="App-header">
+                <Header/>
+                <div className="search-bar">
+                    <Search
+                        className="search"
+                        placeholder="Input search text"
+                        onSearch={value => this.props.onSubmit(value)}
+                        size="large"
+                    />
+                </div>
             </div>
         );
     }
