@@ -4,6 +4,7 @@ import Item from '../interfaces/Item';
 import Word from '../interfaces/Word';
 import Form from '../components/Form';
 import FooterContent from '../components/Footer';
+import DataStorage from '../utils/Storage';
 import { Layout, BackTop } from 'antd';
 import '../styles/App.css';
 
@@ -24,9 +25,7 @@ class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }>
         if (searchText.length < 2) {
             return;
         }
-        fetch(`/api/define/${ searchText }`)
-            .then(res => res.json())
-            .then(result => this.setState({ word: [result] }));
+        this.getData(searchText);
     }
 
     render() {
@@ -42,6 +41,23 @@ class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }>
                 <BackTop />
             </Layout>
         );
+    }
+
+    private getData(value: string): void {
+        const cacheHit = DataStorage.get(value);
+        if (cacheHit) {
+            // no API call if result has been cached and hasn't expire yet
+            this.setState({ word: [JSON.parse(cacheHit)] });
+        } else {
+            fetch(`/api/define/${ value }`)
+                .then(res => res.json())
+                .then(result => this.onSetResult(result, value));
+        }
+    }
+
+    private onSetResult(result: Word, key: string): void {
+        DataStorage.set(key, JSON.stringify(result), 86400000);
+        this.setState({ word: [result] });
     }
 }
 
