@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Item from '../interfaces/Item';
 import { Card, Rate } from 'antd';
 import { calculateRate } from '../utils/util';
+import Item from '../interfaces/Item';
 
 class WordCard extends React.Component<{ item: Item }, {}> {
     constructor(props: { item: Item }) {
@@ -19,7 +19,9 @@ class WordCard extends React.Component<{ item: Item }, {}> {
             >
                 <p>{item.definition}</p>
                 <blockquote><i>{item.example}</i></blockquote>
-                <p><strong>@{item.author}</strong></p>
+                <p>
+                    <strong className="author-name">@{item.author}</strong>
+                </p>
                 <Rate disabled={true} defaultValue={calculateRate(item.thumbs_up, item.thumbs_down)} />
             </Card>
         );

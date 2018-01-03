@@ -1,12 +1,24 @@
 import * as React from 'react';
-import { Input } from 'antd';
+import { AutoComplete, Input, Icon } from 'antd';
 import Header from './Header';
 
-const Search = Input.Search;
-
 class Form extends React.Component<{ onSubmit: Function }, {}> {
+    state = {
+        dataSource: [],
+    };
+
     constructor(props: { onSubmit: Function }) {
         super(props);
+    }
+
+    handleSearch = (value: string) => {
+        this.setState({
+            dataSource: !value ? [] : [
+                value,
+                value + value,
+                value + value + value,
+            ],
+        });
     }
 
     render() {
@@ -14,12 +26,15 @@ class Form extends React.Component<{ onSubmit: Function }, {}> {
             <div className="App-header">
                 <Header/>
                 <div className="search-bar">
-                    <Search
+                    <AutoComplete
                         className="search"
-                        placeholder="Input search text"
+                        dataSource={this.state.dataSource}
                         onSearch={value => this.props.onSubmit(value)}
+                        placeholder="Input search text"
                         size="large"
-                    />
+                    >
+                        <Input size="large" suffix={<Icon type="search" />} />
+                    </AutoComplete>
                 </div>
             </div>
         );

@@ -4,6 +4,13 @@
   font-family: 'Maven Pro', monospace;
 }
 
+blockquote {
+  color: #697b8c;
+  border-left: 4px solid #ebedf0;
+  padding-left: 0.8em;
+  margin: 1em 0;
+}
+
 .App {
   background: #f7fbfd;
 }
@@ -45,7 +52,6 @@
 
 .search {
   width: 800px;
-  height: 60px;
 }
 
 .footer {
@@ -53,9 +59,6 @@
   background: #f7fbfd;
 }
 
-blockquote {
-  color: #697b8c;
-  border-left: 4px solid #ebedf0;
-  padding-left: 0.8em;
-  margin: 1em 0;
+.author-name {
+  font-family: sans-serif !important;
 }

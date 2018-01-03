@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { Alert, Tag, Row, Col } from 'antd';
 import Item from '../interfaces/Item';
 import Word from '../interfaces/Word';
 import WordCard from './WordCard';
-import { Alert, Tag, Row, Col } from 'antd';
 
 const uuidv1 = require('uuid/v1');
 
@@ -22,7 +22,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
             .then(items => this.setState({ items: items.list }));
     }
 
-    componentWillReceiveProps(nextProps: any) {
+    componentWillReceiveProps(nextProps: { items: Array<Item>, word: Array<Word> }) {
         this.setState({ word: nextProps.word });
     }
 
@@ -31,11 +31,16 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
         if (data !== undefined) {
             return this.renderWord(data);
         } else {
-            return this.renderItems(this.state.items);
+            return (
+                <div>
+                    <Alert message="Let's get started with some random definitions :)" type="info" showIcon={true} />
+                    {this.renderItems(this.state.items)}
+                </div>
+            );
         }
     }
 
-    private renderItems(items: Array<Item>) {
+    private renderItems = (items: Array<Item>) => {
         return (
             <div className="word-list">
                 {items.map(item => {
@@ -45,7 +50,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
         );
     }
 
-    private renderWordHeader(word: Word) {
+    private renderWordHeader = (word: Word) => {
         return (
             <Row>
                 <Col span={3}>
@@ -62,7 +67,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
         );
     }
 
-    private renderWord(word: Word) {
+    private renderWord = (word: Word) => {
         if (word.result_type === 'no_results') {
             return (
                 <Alert 
@@ -76,7 +81,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
             return (
                 <div className="word-list">
                     <Alert 
-                        message={`Found ${ word.list.length } matches`} 
+                        message={`Found ${ word.list.length } match(es)`} 
                         type="success" 
                         showIcon={true} 
                         style={{ marginBottom: 40 }} 
