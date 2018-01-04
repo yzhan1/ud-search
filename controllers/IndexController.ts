@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Controller, Param, Req, Get, Res } from 'routing-controllers';
+import { Controller, Param, Req, Get, Res, Render } from 'routing-controllers';
 import { Service } from 'typedi';
 import { Logger } from 'typescript-logging/dist/commonjs/log/standard/Logger';
 import { Factory } from '../config/ConfigLog4j';
@@ -14,8 +14,9 @@ export class IndexController {
     }
 
     @Get('*')
+    @Render(path.join(__dirname + '../client/build/index.html'))
     getDefinition(@Req() request: any, @Res() response: any) {
         this.logger.info(() => 'Sending index.html');
-        return response.send(path.join(__dirname + '../client/build/index.html'));
+        return;
     }
 }

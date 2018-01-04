@@ -8,7 +8,6 @@ const PORT = process.env.PORT || 5000;
 
 const app = createExpressServer({
     cors: true,
-    routePrefix: '/api',
     controllers: [
         DictionaryController,
         IndexController

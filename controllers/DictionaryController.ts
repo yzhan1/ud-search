@@ -17,19 +17,19 @@ export class DictionaryController {
         this.logger = Factory.getLogger('DictionaryControllerLogger');
     }
 
-    @Get('/define/:term')
+    @Get('/api/define/:term')
     getDefinition(@Param('term') term: string) {
         this.logger.info(() => `GET /define/:term ---- Param term: ${ term }`);
         return this.dictionaryService.getDefinition(term);
     }
 
-    @Get('/defineid/:defid')
+    @Get('/api/defineid/:defid')
     getDefinitionWithId(@Param('defid') defid: number) {
         this.logger.info(() => `GET /defineid/:defid ---- Param defid: ${ defid }`);
         return this.dictionaryService.getDefinitionWithId(defid);
     }
   
-    @Get('/random')
+    @Get('/api/random')
     getRandom() {
         this.logger.info(() => 'GET /random');
         return this.dictionaryService.getRandom();
