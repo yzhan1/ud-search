@@ -27,7 +27,7 @@ class WordList extends React.Component<{ items: Array<Item>, word: Array<Word> }
     }
 
     render() {
-        const data = this.props.word[0];
+        const data: Word = this.props.word[0];
         if (data !== undefined) {
             return this.renderWord(data);
         } else {

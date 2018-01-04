@@ -2,23 +2,9 @@ import * as React from 'react';
 import { AutoComplete, Input, Icon } from 'antd';
 import Header from './Header';
 
-class Form extends React.Component<{ onSubmit: Function }, {}> {
-    state = {
-        dataSource: [],
-    };
-
-    constructor(props: { onSubmit: Function }) {
+class Form extends React.Component<{ onSubmit: Function, dataSource: Array<string> }, {}> {
+    constructor(props: { onSubmit: Function, dataSource: Array<string> }) {
         super(props);
-    }
-
-    handleSearch = (value: string) => {
-        this.setState({
-            dataSource: !value ? [] : [
-                value,
-                value + value,
-                value + value + value,
-            ],
-        });
     }
 
     render() {
@@ -28,10 +14,14 @@ class Form extends React.Component<{ onSubmit: Function }, {}> {
                 <div className="search-bar">
                     <AutoComplete
                         className="search"
-                        dataSource={this.state.dataSource}
+                        dataSource={this.props.dataSource}
                         onSearch={value => this.props.onSubmit(value)}
+                        onSelect={(value, option) => this.props.onSubmit(value)}
                         placeholder="Input search text"
                         size="large"
+                        filterOption={(value, option: any) => 
+                            option.props.children.toUpperCase().indexOf(value.toUpperCase()) !== -1
+                        }
                     >
                         <Input size="large" suffix={<Icon type="search" />} />
                     </AutoComplete>

@@ -10,30 +10,35 @@ import '../styles/App.css';
 
 const { Footer, Content } = Layout;
 
-let timeout: any;
+let timer: any;
 
-class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }> {
+class App extends React.Component<{}, { items: Array<Item>, word: Array<Word>, dataSource: Array<string> }> {
     constructor(props: React.Props<{}>) {
         super(props);
         this.state = {
             items: Array<Item>(),
-            word: Array<Word>()
+            word: Array<Word>(),
+            dataSource: Array<string>()
         };
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.setState({ dataSource: DataStorage.getHistory() });
+    }
+
     onSubmit = (value: string): void => {
-        if (timeout) {
-            clearInterval(timeout);
+        if (timer) {
+            clearInterval(timer);
         }
         // search only after user stopped typing for 500 ms
-        timeout = setTimeout(() => this.debouncedSearch(value), 500);
+        timer = setTimeout(() => this.debouncedSearch(value), 500);
     }
 
     render() {
         return (
             <Layout className="App">
-                <Form onSubmit={this.onSubmit} />
+                <Form onSubmit={this.onSubmit} dataSource={this.state.dataSource} />
                 <Content className="content">
                     <WordList items={this.state.items} word={this.state.word} />
                 </Content>
@@ -46,11 +51,10 @@ class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }>
     }
 
     private debouncedSearch = (value: string): void => {
-        const searchText = value;
-        if (searchText.length < 2) {
+        if (value.length < 2) {
             return;
         }
-        this.getData(searchText);
+        this.getData(value);
     }
 
     private getData = (value: string): void => {
@@ -59,6 +63,10 @@ class App extends React.Component<{}, { items: Array<Item>, word: Array<Word> }>
             // no API call if result has been cached and hasn't expire yet
             this.setState({ word: [JSON.parse(cacheHit)] });
         } else {
+            if (value.length > 2) {
+                DataStorage.saveHistory(value);
+                this.setState({ dataSource: DataStorage.getHistory() });
+            }
             fetch(`/api/define/${ value }`)
                 .then(res => res.json())
                 .then(result => this.onSetResult(result, value));
