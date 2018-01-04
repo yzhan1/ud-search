@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import * as path from 'path';
+import * as express from 'express';
 import { createExpressServer } from 'routing-controllers';
 import { DictionaryController } from './controllers/DictionaryController';
 import { IndexController } from './controllers/IndexController';
@@ -13,6 +15,8 @@ const app = createExpressServer({
         IndexController
     ]
 });
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 const logger = Factory.getLogger('AppLogger');
 
