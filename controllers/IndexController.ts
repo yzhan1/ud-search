@@ -8,14 +8,15 @@ import { Factory } from '../config/ConfigLog4j';
 @Controller()
 export class IndexController {
     private logger: Logger;
+    private static readonly indexUrl: string = path.join(__dirname, '..', '/client/build/index.html');
     
     constructor() {
         this.logger = Factory.getLogger('IndexControllerLogger');
     }
 
     @Get('*')
-    @Render(path.join(__dirname, '..', '/client/build/index.html'))
+    @Render(IndexController.indexUrl)
     getDefinition(@Req() request: any, @Res() response: any) {
-        this.logger.info(() => `Sending ${ path.join(__dirname, '..', '/client/build/index.html') }`);
+        this.logger.info(() => `Sending ${ IndexController.indexUrl }`);
     }
 }
