@@ -16,7 +16,6 @@ export class IndexController {
     @Get('*')
     @Render(path.join(__dirname + '../client/build/index.html'))
     getDefinition(@Req() request: any, @Res() response: any) {
-        this.logger.info(() => 'Sending index.html');
-        return;
+        this.logger.info(() => `Sending ${ path.join(__dirname + '../client/build/index.html') }`);
     }
 }
