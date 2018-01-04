@@ -3,6 +3,8 @@
 An **Unofficial** Urban Dictionary search interface built using React.js, Typescript, Redis and Ant Design.
 The project serves as a practice on server-side caching and frontend development.
 
+App is live at: https://ud-search.herokuapp.com/
+
 API is available at: https://ud-search.herokuapp.com/api/
 
 ## Documentation
