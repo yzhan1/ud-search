@@ -14,7 +14,7 @@ export class DictionaryController {
     
     constructor() {
         this.dictionaryService = Container.get(DictionaryService);
-        this.logger = Factory.getLogger('ControllerLogger');
+        this.logger = Factory.getLogger('DictionaryControllerLogger');
     }
 
     @Get('/define/:term')

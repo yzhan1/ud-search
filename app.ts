@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { createExpressServer } from 'routing-controllers';
 import { DictionaryController } from './controllers/DictionaryController';
+import { IndexController } from './controllers/IndexController';
 import { Factory } from './config/ConfigLog4j';
 
 const PORT = process.env.PORT || 5000;
@@ -8,7 +9,10 @@ const PORT = process.env.PORT || 5000;
 const app = createExpressServer({
     cors: true,
     routePrefix: '/api',
-    controllers: [DictionaryController]
+    controllers: [
+        DictionaryController,
+        IndexController
+    ]
 });
 
 const logger = Factory.getLogger('AppLogger');
