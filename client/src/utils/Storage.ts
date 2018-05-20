@@ -29,18 +29,16 @@ class DataStorage {
         if (history.length >= 20) {
             history.pop();
         }
-        history.push(input);
+        if (!history.includes(input)) {
+            history.push(input);
+        }
         localStorage.setItem(this.SEARCH_HISTORY_KEY, JSON.stringify(history));
         return true;
     }
 
     static getHistory(): Array<string> {
         const history: string | null = localStorage.getItem(this.SEARCH_HISTORY_KEY);
-        if (history === null) {
-            return [];
-        } else {
-            return JSON.parse(history);
-        }
+        return history === null ? [] : JSON.parse(history);
     }
 }
 
